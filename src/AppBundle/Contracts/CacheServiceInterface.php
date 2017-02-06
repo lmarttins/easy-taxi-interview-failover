@@ -8,5 +8,5 @@ interface CacheServiceInterface
 
     public function get($key);
 
-    public function del($key);
+    public function del(array $keys = []);
 }

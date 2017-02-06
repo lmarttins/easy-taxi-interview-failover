@@ -32,8 +32,8 @@ class CacheService
         return $this->cacheService->get($key);
     }
 
-    public function del($key)
+    public function del(array $keys = [])
     {
-        $this->cacheService->del($key);
+        $this->cacheService->del($keys);
     }
 }
