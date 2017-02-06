@@ -18,11 +18,12 @@ class CustomersController extends Controller
     {
         $cacheService = $this->get('cache_service');
 
+        $repository = $this->get('customer_repository');
+
         $customers = $cacheService->get('customers');
 
         if (empty($customers)) {
-            $database = $this->get('database_service')->getDatabase();
-            $customers = $database->customers->find();
+            $customers = $repository->findAll();
             $customers = iterator_to_array($customers);
         }
 
