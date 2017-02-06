@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Contracts\CacheServiceInterface;
 use Predis;
 
 /**
@@ -11,23 +12,28 @@ use Predis;
 **/
 class CacheService
 {
-    public function __construct($host, $port, $prefix)
+    /**
+     * @var CacheServiceInterface
+     */
+    private $cacheService;
+    
+    public function __construct(CacheServiceInterface $cacheService)
     {
-
-    }
-
-    public function get($key)
-    {
-
+        $this->cacheService = $cacheService;
     }
 
     public function set($key, $value)
     {
+        $this->cacheService->set($key, $value);
+    }
 
+    public function get($key)
+    {
+        return $this->cacheService->get($key);
     }
 
     public function del($key)
     {
-
+        $this->cacheService->del($key);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-use \MongoClient;
 use \MongoDB;
 
 class DatabaseService
@@ -11,14 +10,14 @@ class DatabaseService
 
     public function __construct($host, $port, $database)
     {
-        $mongoClient = new MongoClient("mongodb://$host:$port/");
+        $mongoClient = new MongoDB\Client("mongodb://$host:$port/");
 
         $this->setDatabase(
-            $mongoClient->selectDB($database)
+            $mongoClient->selectDatabase($database)
         );
     }
 
-    public function setDatabase(MongoDB $database)
+    public function setDatabase(MongoDB\Database $database)
     {
         $this->database = $database;
     }
