@@ -9,9 +9,9 @@ class RedisCacheService implements CacheServiceInterface
 {
     private $redis;
 
-    public function __construct($host, $port, $prefix = null)
+    public function __construct($host, $port, $prefix = 'tcp')
     {
-        $this->redis = new Predis\Client([$host, $port, $prefix]);
+        $this->redis = new Predis\Client($prefix . '://' . $host . ':' . $port);
     }
 
     public function set($key, $value)

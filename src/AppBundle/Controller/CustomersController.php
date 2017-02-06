@@ -18,6 +18,8 @@ class CustomersController extends Controller
     {
         $cacheService = $this->get('cache_service');
 
+        $customers = $cacheService->get('customers');
+
         if (empty($customers)) {
             $database = $this->get('database_service')->getDatabase();
             $customers = $database->customers->find();
