@@ -36,7 +36,10 @@ class CustomersController extends Controller
      */
     public function postAction(Request $request)
     {
-        $database = $this->get('database_service')->getDatabase();
+        $cacheService = $this->get('cache_service');
+
+        $repository = $this->get('customer_repository');
+
         $customers = json_decode($request->getContent());
 
         if (empty($customers)) {
@@ -44,7 +47,7 @@ class CustomersController extends Controller
         }
 
         foreach ($customers as $customer) {
-            $database->customers->insertOne($customer);
+            $repository->customers->insertOne($customer);
         }
 
         return new JsonResponse(['status' => 'Customers successfully created']);
@@ -56,8 +59,9 @@ class CustomersController extends Controller
      */
     public function deleteAction()
     {
-        $database = $this->get('database_service')->getDatabase();
-        $database->customers->drop();
+        $repository = $this->get('customer_repository');
+
+        $repository->delete();
 
         return new JsonResponse(['status' => 'Customers successfully deleted']);
     }

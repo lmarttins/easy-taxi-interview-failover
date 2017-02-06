@@ -10,4 +10,4 @@ framework:
 
 parameters:
     database_name: easytaxi-symfony-cache-test
-    cache_prefix: test
+    cache_prefix: ~
