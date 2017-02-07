@@ -11,9 +11,13 @@ class RedisCacheServiceTest extends KernelTestCase
 
     public function setUp()
     {
-        $this->markTestSkipped(
-            'Not working tempory.'
-        );
+        /**
+         * Escape the test when the cache server is shut down.
+         * The tests have to pass, because now the database is accessed.'
+         */
+        /*$this->markTestSkipped(
+            'Escaped to be able to test cache fail over.'
+        );*/
 
         $this->redis = new RedisCacheService('127.0.0.1', '6379', 'tcp');
     }

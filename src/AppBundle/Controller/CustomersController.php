@@ -22,16 +22,14 @@ class CustomersController extends Controller
         try {
             $cacheService = $this->get('cache_service');
 
-            $customers = $cacheService->get('customers');
+            $customers = json_decode($cacheService->get('customers'));
 
             if (empty($customers)) {
-                $customers = $repository->findAll();
+                $customers = iterator_to_array($repository->findAll());
             }
         } catch (CacheFailOverException $e) {
-            $customers = $repository->findAll();
+            $customers = iterator_to_array($repository->findAll());
         }
-
-        $customers = iterator_to_array($customers);
 
         return new JsonResponse($customers);
     }
@@ -55,6 +53,8 @@ class CustomersController extends Controller
         foreach ($customers as $customer) {
             $repository->save($customer);
         }
+
+        $cacheService->set('customers', json_encode($customers));
 
         return new JsonResponse(['status' => 'Customers successfully created']);
     }

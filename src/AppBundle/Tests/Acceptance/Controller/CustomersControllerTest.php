@@ -3,6 +3,7 @@
 namespace AppBundle\Tests\Controller;
 
 use AppBundle\Tests\TestAppCaseTrait;
+use MongoDB\BSON\ObjectID;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

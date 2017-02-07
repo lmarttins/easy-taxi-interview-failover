@@ -21,11 +21,11 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function save($data)
     {
-        $this->database->customers->insertOne($data);
+        return $this->database->customers->insertOne($data);
     }
 
     public function delete(array $data = [])
     {
-        $this->database->customers->drop();
+        return $this->database->customers->drop();
     }
 }
