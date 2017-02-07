@@ -3,7 +3,9 @@
 namespace AppBundle\Service\Cache;
 
 use AppBundle\Contracts\CacheServiceInterface;
+use AppBundle\Exception\CacheFailOverException;
 use Predis;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class RedisCacheService implements CacheServiceInterface
 {
@@ -11,7 +13,11 @@ class RedisCacheService implements CacheServiceInterface
 
     public function __construct($host, $port, $prefix = 'tcp')
     {
-        $this->redis = new Predis\Client($prefix . '://' . $host . ':' . $port);
+        try {
+            $this->redis = new Predis\Client($prefix . '://' . $host . ':' . $port);
+        } catch (Exception $e) {
+            throw new CacheFailOverException($e->getMessage());
+        }
     }
 
     public function set($key, $value)
