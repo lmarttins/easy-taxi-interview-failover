@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Exception\CacheFailOverException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -16,16 +17,21 @@ class CustomersController extends Controller
      */
     public function getAction()
     {
-        $cacheService = $this->get('cache_service');
-
         $repository = $this->get('customer_repository');
 
-        $customers = $cacheService->get('customers');
+        try {
+            $cacheService = $this->get('cache_service');
 
-        if (empty($customers)) {
+            $customers = $cacheService->get('customers');
+
+            if (empty($customers)) {
+                $customers = $repository->findAll();
+            }
+        } catch (CacheFailOverException $e) {
             $customers = $repository->findAll();
-            $customers = iterator_to_array($customers);
         }
+
+        $customers = iterator_to_array($customers);
 
         return new JsonResponse($customers);
     }

@@ -3,34 +3,46 @@
 namespace AppBundle\Service\Cache;
 
 use AppBundle\Contracts\CacheServiceInterface;
-use AppBundle\Exception\CacheFailOverException;
 use Predis;
+use AppBundle\Exception\CacheFailOverException;
+use Predis\Connection\ConnectionException;
 
 class RedisCacheService implements CacheServiceInterface
 {
+    /**
+     * @var Predis\Client
+     */
     private $redis;
 
     public function __construct($host, $port, $prefix = 'tcp')
     {
-        try {
-            $this->redis = new Predis\Client($prefix . '://' . $host . ':' . $port);
-        } catch (\Exception $e) {
-            throw new CacheFailOverException($e->getMessage());
-        }
+        $this->redis = new Predis\Client($prefix . '://' . $host . ':' . $port);
     }
 
     public function set($key, $value)
     {
-        $this->redis->set($key, $value);
+        try {
+            $this->redis->set($key, $value);
+        } catch (ConnectionException $e) {
+            throw new CacheFailOverException($e->getMessage());
+        }
     }
 
     public function get($key)
     {
-        return $this->redis->get($key);
+        try {
+            return $this->redis->get($key);
+        } catch (ConnectionException $e) {
+            throw new CacheFailOverException($e->getMessage());
+        }
     }
 
     public function del(array $keys = [])
     {
-        $this->redis->del($keys);
+        try {
+            $this->redis->del($keys);
+        } catch (ConnectionException $e) {
+            throw new CacheFailOverException($e->getMessage());
+        }
     }
 }

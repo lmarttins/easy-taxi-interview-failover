@@ -2,19 +2,14 @@
 
 namespace AppBundle\Tests;
 
-use Symfony\Component\BrowserKit\Tests\TestClient;
-
 trait TestAppCaseTrait
 {
-    /**
-     * @var TestClient
-     */
-    protected $client;
-
     /**
      * @param $endpoint
      * @param array $payload
      * @param string $contentType
+     *
+     * @return mixed
      */
     public function get($endpoint, $payload = [], $contentType = 'application/json')
     {
