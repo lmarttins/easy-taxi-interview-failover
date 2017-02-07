@@ -47,7 +47,7 @@ class CustomersController extends Controller
         }
 
         foreach ($customers as $customer) {
-            $repository->customers->insertOne($customer);
+            $repository->save($customer);
         }
 
         return new JsonResponse(['status' => 'Customers successfully created']);

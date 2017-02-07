@@ -6,7 +6,7 @@ interface CustomerRepositoryInterface
 {
     public function findAll();
 
-    public function save(array $data);
+    public function save($data);
 
     public function delete(array $data = []);
 }

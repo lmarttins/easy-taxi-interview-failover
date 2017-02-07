@@ -2,11 +2,14 @@
 
 namespace AppBundle\Tests\Controller;
 
+use AppBundle\Tests\TestAppCaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CustomersControllerTest extends WebTestCase
 {
     protected $client;
+
+    use TestAppCaseTrait;
 
     public function setUp()
     {
@@ -23,8 +26,20 @@ class CustomersControllerTest extends WebTestCase
         ];
         $customers = json_encode($customers);
 
-        $this->client->request('POST', '/customers/', [], [], ['CONTENT_TYPE' => 'application/json'], $customers);
+        $this->post('/customers/', $customers);
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+
+    public function testDeleteCustomers()
+    {
+        $this->delete('/customers/');
+
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+
+    public function testReturnCustomers()
+    {
+        
     }
 }

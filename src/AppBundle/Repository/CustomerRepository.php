@@ -19,7 +19,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $this->database->customers->find();
     }
 
-    public function save(array $data)
+    public function save($data)
     {
         $this->database->customers->insertOne($data);
     }
