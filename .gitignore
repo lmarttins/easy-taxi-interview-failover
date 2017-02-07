@@ -11,3 +11,4 @@
 /bin/
 /composer.phar
 /dump.rdb
+.idea/*

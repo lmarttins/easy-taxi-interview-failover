@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Tests;
+namespace AppBundle\Tests\Unit\Repository;
 
 use AppBundle\Repository\CustomerRepository;
 use AppBundle\Service\DatabaseService;
@@ -22,18 +22,24 @@ class CustomerRepositoryTest extends KernelTestCase
     {
         $customer = ['name' => 'Leandro', 'age' => 31];
 
-        $this->assertInstanceOf(MongoDB\InsertOneResult::class, $this->customerRepository->save($customer));
+        $save = $this->customerRepository->save($customer);
+
+        $this->assertInstanceOf(MongoDB\InsertOneResult::class, $save);
     }
 
     public function testFindAllCustomerInDatabase()
     {
-        $this->assertInstanceOf(MongoDB\Driver\Cursor::class, $this->customerRepository->findAll());
+        $result = $this->customerRepository->findAll();
+
+        $this->assertInstanceOf(MongoDB\Driver\Cursor::class, $result);
     }
 
     public function testDeleteCustomerInDatabase()
     {
         $this->customerRepository->delete();
 
-        $this->assertEquals('{}', json_encode($this->customerRepository->findAll()));
+        $deleted = json_encode($this->customerRepository->findAll());
+
+        $this->assertEquals('{}', $deleted);
     }
 }
